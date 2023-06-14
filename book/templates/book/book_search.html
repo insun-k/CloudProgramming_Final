@@ -1,0 +1,20 @@
+{% extends 'book/base.html' %}
+{% block main_area %}
+<h1>기록할 책을 검색해주세요</h1>
+<br>
+<form action="." method="post"> {% csrf_token %}
+    {{ form.as_table }} <!-- form을 테이블 형식으로 표시, 여기서 form은 views에서 넘겨준 BookSearchForm 객체임-->
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+</form>
+
+<br/><br/>
+{% if object_list %}
+    {% for post in object_list %}
+        <h4>{{ post.book_title }}</h4>
+    {% endfor %}
+{% elif search_term %}<!-- 검색란이 공란인지 확인-->
+    <b><i>Search Word({{ search_term }}) Not Found</i></b>
+{% endif %}
+
+
+{% endblock %}
