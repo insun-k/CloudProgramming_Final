@@ -5,9 +5,11 @@
                 {% for p in post_list %}
                 <!-- Blog Post -->
                 <div class="card mb-4">
-                    <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+
+                    <img class="card-img-top" src="{{ p.image.url }}" alt="Card image cap">
+
                     <div class="card-body">
-                        <h2 class="card-title">{{ p.title}}</h2>
+                        <h2 class="card-title">{{ p.book_name}}</h2>
                         <p class="card-text">{{ p.content }}</p>
                         <a href="{{ p.get_absolute_url }}" class="btn btn-primary">더보기 &rarr;</a>
                     </div>

@@ -4,17 +4,32 @@
 <br>
 <form action="." method="post"> {% csrf_token %}
     {{ form.as_table }} <!-- form을 테이블 형식으로 표시, 여기서 form은 views에서 넘겨준 BookSearchForm 객체임-->
-    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+    <input type="submit" value="검색" class="btn btn-outline-warning">
 </form>
 
 <br/><br/>
+
+
 {% if object_list %}
     {% for post in object_list %}
-        <h4>{{ post.book_title }}</h4>
+        <img src="{{ post.img_url }}" width="200" height="300">
+        <h4>{{ post.book_title }} <a href="/book/search/create_report" class="btn btn-success">글 쓰기</a></h4>
+        <p>{{ post.book_content }}</p>
+        <br>
     {% endfor %}
 {% elif search_term %}<!-- 검색란이 공란인지 확인-->
-    <b><i>Search Word({{ search_term }}) Not Found</i></b>
+    <b>검색결과가 존재하지 않습니다.</b>
+    <br/><br/>
 {% endif %}
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <b><h5>원하는 책이 없으시면, 버튼을 클릭하여 다른 독자들에게 책을 알려주세요!</h5></b>
+            <a href="/book/search/create_report" class="btn btn-warning">새 글 쓰기</a>
+        </div>
+        <!-- /.container -->
+    </footer>
+
 
 
 {% endblock %}
