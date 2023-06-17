@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -22,14 +23,14 @@ class Book(models.Model):
 
 
 class Post(models.Model):
-    #user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book_name = models.CharField(max_length=30)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book_name = models.CharField(max_length=30,blank=True)
     #book_name = models.ForeignKey(Book, on_delete=models.PROTECT, null=True)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='book/images/%Y/%m/%d/')
-    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
+    image = models.ImageField(upload_to='book/images/%Y/%m/%d/',blank=True,null=True)
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'[{self.pk}] {self.book_name}'
