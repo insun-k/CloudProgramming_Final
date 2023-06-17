@@ -7,4 +7,6 @@ urlpatterns = [
     path('feed/<int:pk>/', views.FeedDetail.as_view()),
     path('search/', views.BookSearchView.as_view(),name='search_book'),
     path('search/create_report', views.CreateReportView.as_view(),name="create_report"),
+    path('feed/<str:slug>/', views.categories_page),
+
 ]

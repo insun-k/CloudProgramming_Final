@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, FormView, CreateView
 
 from book import crowling
 from book.forms import BookSearchForm
-from book.models import Post, Book
+from book.models import Post, Book, Category
 
 django.setup()
 
@@ -24,6 +24,12 @@ else:
 class FeedList(ListView):
     model = Post
     template_name = 'book/feed_list.html'
+    ordering = '-pk'
+
+    def get_context_data(self, **kwargs):
+        context = super(FeedList, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class FeedDetail(DetailView):
@@ -51,3 +57,23 @@ class CreateReportView(CreateView):
     model = Post
     fields = ['book_name','content','image']
     template_name = 'book/create_report.html'
+
+
+def categories_page(request, slug):
+    if slug:
+        category = Category.objects.get(slug=slug)
+        post_list = Post.objects.filter(category=category)
+
+    context = {
+        'category' : category,
+        'categories' : Category.objects.all(),
+        'post_list' : post_list,
+
+    }
+    return render(
+        request,
+        'book/feed_list.html',
+        context
+    )
+
+

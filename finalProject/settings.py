@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-drpir2ex4__jyqursp9%+k#etypcyi00q_s4bj5q1b^ucaa-1c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'book',
+    'main',
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -126,3 +131,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/'
