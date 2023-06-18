@@ -26,3 +26,4 @@ class CommentForm(forms.ModelForm):
         model = Comment
         # fields = '__all__'
         exclude = ('post', 'user',)
+

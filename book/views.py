@@ -1,6 +1,7 @@
 import csv
 
 import django
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -73,12 +74,20 @@ def CreateReport(request):
         if form.is_valid():
             report = form.save(commit=False)
             report.user = request.user
+            report.image = request.FILES['image']
             report.save()
             return redirect('feed')
     else:
         form = ReportForm(request.POST)
     return render(request, 'book/create_report.html',{'form':form})
 
+@login_required
+def DeleteReport(request, pk):
+    report = Post.objects.get(id=pk)
+    if report.user == request.user and request.user.is_authenticated:
+        report.delete()
+        messages.success(request, "삭제되었습니다.")
+        return redirect('/book/feed/')
 
 class UpdateReportView(LoginRequiredMixin, UpdateView):
     model = Post

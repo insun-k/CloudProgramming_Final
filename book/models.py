@@ -29,7 +29,7 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='book/images/%Y/%m/%d/',blank=True,null=True)
+    image = models.ImageField(upload_to='book/images/%Y/%m/%d/',blank=True)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
 
 

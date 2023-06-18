@@ -1,35 +1,40 @@
 {% extends 'book/base.html' %}
 {% block main_area %}
 
-                {% if category %} postings with category {{ category }}
+            <h2>Community</h2>
+            <br>
+                <!-- Blog Post -->
+                {% if category %}
+                    <h4>카테고리> {{ category }}</h4>
                 {% endif %}
 
-                {% for p in post_list %}
-                <!-- Blog Post -->
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div class="card">
-                    {% if p.image %}
-                        <img class="card-img-top" src="{{ p.image.url }}" alt="Card image cap">
-                    {% else %}
-                        <img class="card-img-top" src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68">
-                    {% endif %}
+            <div class="row row-cols-1 row-cols-md-2 g-4" style="margin-top: 30px">
+            {% for p in post_list %}
+               <div class="col" style="margin-bottom: 100px">
+                   <div class="card-header"><b>{{ p.user }}</b></div>
+                        <div class="card">
+                            {% if p.image %}
+                                <img class="card-img-top" src="{{ p.image.url }}" alt="Card image cap">
+                            {% else %}
+                                <img class="card-img-top" src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68">
+                            {% endif %}
 
 
-                    <div class="card-body">
-                        <h2 class="card-title">{{ p.book_name}}</h2>
-                        <p class="card-text">{{ p.content }}</p>
-                        <a href="{{ p.get_absolute_url }}" class="btn btn-primary">더보기 &rarr;</a>
-                        <br>
+                            <div class="card-body">
+                                <h3 class="card-title">{{ p.book_name}}</h3>
+                                <p class="card-text">{{ p.content | truncatewords:15 }}</p>
+                                <a href="{{ p.get_absolute_url }}" class="btn btn-sm" style="background-color: #FAFAFA">더보기 &rarr;</a>
 
 
-                    </div>
-                    <div class="card-footer text-muted">
-                        Posted on {{ p.created_at}} by
-                        <a href="#">{{ p.user}}</a>
-                    </div>
-                </div>
-                {% endfor %}
 
+                            </div>
+                            <div class="card-footer text-muted">
+                                {{ p.created_at}} <p style="float:right">댓글 {{ p.comment_set.count }}개</p>
+                            </div>
+                        </div>
+               </div>
+            {% endfor %}
+            </div>
 
                 <!-- Pagination -->
                 <ul class="pagination justify-content-center mb-4">
