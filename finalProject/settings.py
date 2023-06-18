@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'book',
     'main',
 
@@ -122,7 +124,10 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'book/static')
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'main','static')
+]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
@@ -134,3 +139,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL='/'
 LOGOUT_REDIRECT_URL='/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -5,13 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 
 from book import crowling
-from book.forms import BookSearchForm, ReportForm
-from book.models import Post, Book, Category
+from book.forms import BookSearchForm, ReportForm, CommentForm
+from book.models import Post, Book, Category, Comment
 
 django.setup()
 
@@ -33,6 +33,7 @@ class FeedList(ListView):
     def get_context_data(self, **kwargs):
         context = super(FeedList, self).get_context_data()
         context['categories'] = Category.objects.all()
+        context['CommentForm'] = CommentForm
         return context
 
 
@@ -43,6 +44,7 @@ class FeedDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(FeedDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
+        context['CommentForm'] = CommentForm
         return context
 
 
@@ -107,4 +109,16 @@ def categories_page(request, slug):
         context
     )
 
+@require_POST
+def comments_create(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk)
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.user = request.user
+            comment.save()
+        return redirect(post.get_absolute_url())
+    return redirect('main:login')
 

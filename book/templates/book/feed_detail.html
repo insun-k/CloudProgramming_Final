@@ -26,10 +26,10 @@
         <hr>
 
         <!-- Preview Image -->
-        <{% if post.image %}
-                  <img class="img-fluid rounded" src="{{ post.image.url}}" alt="">
+        {% if post.image %}
+          <img class="img-fluid rounded" src="{{ post.image.url}}" alt="">
         {% else %}
-                        <img class="card-img-top" src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68">
+          <img class="card-img-top" src="https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68">
         {% endif %}
 
         <!-- Post Content -->
@@ -44,49 +44,34 @@
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
           <div class="card-body">
-            <form>
-              <div class="form-group">
-                <textarea class="form-control" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+              {% if user.is_authenticated %}
+                <form method="POST" action="{{ post.get_absolute_url }}comment_add/"> {% csrf_token %}
+                <div class="form-group">
+                  {{ CommentForm }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              {% else %}
+                  <a href="/accounts/login/">[댓글을 작성하려면 로그인하세요.]</a>
+              {% endif %}
           </div>
         </div>
 
-        <!-- Single Comment -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
-        </div>
-
-        <!-- Comment with nested comments -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
+      {% if post.comment_set.exists %}
+        {% for comment in post.comment_set.iterator %}
+            <!-- Single Comment -->
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                <h5 class="mt-0">{{ comment.user }} - {{ comment.created_at }}</h5>
+                    <p>{{ comment.content }}</p>
+                </div>
             </div>
+        {% endfor %}
+      {% endif %} 
 
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
 
-          </div>
-        </div>
+
 
       </div>
 
