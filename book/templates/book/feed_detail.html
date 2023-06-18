@@ -1,7 +1,7 @@
 {% extends 'book/base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 {% block main_area %}
+    {% load static %}
 
   <!-- Page Content -->
   <div class="container">
@@ -16,7 +16,7 @@
 
         <!-- Author -->
         <p class="lead">
-         <b>{{ post.user}}</b>
+         <img class="d-flex mr-3 rounded-circle" src="{% static 'images/f1.png' %}"style="width: 30px;height: 30px;float: left" alt=""> <b>{{ post.user}}</b>
         </p>
 
         <hr>
