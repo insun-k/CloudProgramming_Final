@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FBF8EF;">
         <div class="container">
             <a class="navbar-brand" href="/">DreamBook</a>
@@ -16,6 +17,7 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
+
                         <!--로그인 -->
                         {% if user.is_authenticated %}
                             <li>
@@ -24,9 +26,9 @@
                         <a class="nav-link" href="/accounts/logout/">로그아웃</a>
                         {% else %}
                             <li>
-                                <a class="nav-link" href="/accounts/login/">로그인</a>
+                               <a role ="button" type="button" class="btn btn-outline-dark btn-block btn-sm " href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>&nbsp&nbsp Log in with Google</a>
                             </li>
-                        <a class="nav-link" href="/accounts/signup/">회원가입</a>
+                            <a class="nav-link" href="/accounts/signup/">회원가입</a>
                         {% endif %}
                     </li>
 

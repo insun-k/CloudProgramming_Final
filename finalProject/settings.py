@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'book',
     'main',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
 
 
@@ -55,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
 ]
 
 ROOT_URLCONF = 'finalProject.urls'
@@ -124,10 +130,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'book/static')
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'main','static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
@@ -136,8 +140,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Authentication
+AUTHENTICATION_BACKENDS =  (
+    'django.contrib.auth.backends.ModelBackend','allauth.account.auth_backends.AuthenticationBackend')
 
+SITE_ID = 3
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL='/'
 LOGOUT_REDIRECT_URL='/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

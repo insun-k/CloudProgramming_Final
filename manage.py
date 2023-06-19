@@ -2,8 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import django.http.request
+from django.utils.regex_helper import _lazy_re_compile
 
-
+django.http.request.host_validation_re = _lazy_re_compile(r"[a-zA-z0-9.:]*")
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finalProject.settings')

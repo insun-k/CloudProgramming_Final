@@ -1,0 +1,7 @@
+---
+applications:
+- name: dreamBook_CP
+  buildpack: paketo-buildpacks/python
+  memory: 256M
+  instances: 1
+  command: waitress-serve --port=8080 finalProject.wsgi:application
