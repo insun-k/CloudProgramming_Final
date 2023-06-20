@@ -81,6 +81,9 @@ def CreateReport(request):
         form = ReportForm(request.POST)
     return render(request, 'book/create_report.html',{'form':form})
 
+
+
+
 @login_required
 def DeleteReport(request, pk):
     report = Post.objects.get(id=pk)
@@ -130,4 +133,5 @@ def comments_create(request, pk):
             comment.save()
         return redirect(post.get_absolute_url())
     return redirect('main:login')
+
 

@@ -3,14 +3,18 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
 
+from book.models import Book
 from main.forms import UserForm
 
 
 # Create your views here.
 def index(request):
+    book_list = Book.objects.all()[:36]
+    context = {'book_list' : book_list}
     return render(
-        request,
+       request,
         'main/main_view.html',
+        context
 
     )
 
@@ -29,4 +33,5 @@ def signup(request):
     return render(request, 'main/signup.html',{'form':form})
 # Create your views here.
 
-# 회원 가입
+
+
